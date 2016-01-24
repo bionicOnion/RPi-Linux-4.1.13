@@ -884,4 +884,8 @@ asmlinkage long sys_execveat(int dfd, const char __user *filename,
 			const char __user *const __user *argv,
 			const char __user *const __user *envp, int flags);
 
+//AOS
+asmlinkage long sys_badcall(void);
+asmlinkage long sys_printlog(int argument);
+
 #endif

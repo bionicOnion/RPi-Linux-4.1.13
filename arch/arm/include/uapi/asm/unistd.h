@@ -415,6 +415,10 @@
 #define __NR_bpf			(__NR_SYSCALL_BASE+386)
 #define __NR_execveat			(__NR_SYSCALL_BASE+387)
 
+// AOS
+#define __NR_badcall         (__NR_SYSCALL_BASE+388)
+#define __NR_printlog        (__NR_SYSCALL_BASE+389)
+
 /*
  * The following SWIs are ARM private.
  */
