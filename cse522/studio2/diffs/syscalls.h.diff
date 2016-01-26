@@ -1,0 +1,11 @@
+--- /home/cameron/Documents/linux-4.1.13/include/linux/syscalls.h	2015-11-13 13:46:22.000000000 -0600
++++ syscalls.h	2016-01-24 19:08:07.976177337 -0600
+@@ -884,4 +884,8 @@ asmlinkage long sys_execveat(int dfd, co
+ 			const char __user *const __user *argv,
+ 			const char __user *const __user *envp, int flags);
+ 
++//AOS
++asmlinkage long sys_badcall(void);
++asmlinkage long sys_printlog(int argument);
++
+ #endif

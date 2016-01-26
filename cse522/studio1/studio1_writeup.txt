@@ -1,0 +1,12 @@
+1. Robert Miller & Cameron Whipple
+2. pi@raspberrypi:~ $ uname -a
+	Linux raspberrypi 4.1.13-v7+ #826 SMP PREEMPT Fri Nov 13 20:19:03 GMT 2015 armv7l GNU/Linux
+3. pi@raspberrypi:~/Documents/linux-bc1669c846b629cface0aaa367afb2b9c6226faf $ make kernelversion
+4.1.13
+6. CONFIG_XEN
+   symbol: XEN [=n]
+   This option would make it possible to run this kernel as a guest within the Xen hypervisor.
+7. pi@raspberrypi:~ $ uname -a
+Linux raspberrypi 4.1.13-rt15cse522 #1 SMP PREEMPT RT Wed Jan 20 06:42:47 UTC 2016 armv7l GNU/Linux
+
+

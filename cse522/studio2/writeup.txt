@@ -1,0 +1,32 @@
+1. Robert Miller & Cameron Whipple
+2. pi@raspberrypi:~/Documents/CSE522/studio2 $ ./lib_call 
+	Error to setuid failed! Reason: Operation not permitted
+	UID Before: 1000, UID After: 1000
+3. pi@raspberrypi:~/Documents/CSE522/studio2 $ ./native_lib 
+	Error to setuid failed! Reason: Operation not permitted
+	UID Before: 1000, UID After: 1000
+4. 
+	//AOS
+	asmlinkage long sys_badcall(void);
+	asmlinkage long sys_printlog(int argument);
+9.
+	pi@raspberrypi:~/Documents/CSE522/studio2 $ ./badcall 
+	UID Before: 1000, UID After: 0
+
+10.  [   12.703746] wlan0: authenticated
+	[   12.710970] wlan0: associate with b4:75:0e:d5:05:14 (try 1/3)
+	[   12.714208] wlan0: RX AssocResp from b4:75:0e:d5:05:14 (capab=0x411 status=0 aid=3)
+	[   12.723840] wlan0: associated
+	[   12.723916] IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+	[  417.148029] CSE522 Print: 0
+	[  417.149119] CSE522 Print: 1
+	[  417.149894] CSE522 Print: 2
+	[  417.150510] CSE522 Print: 3
+	[  417.151109] CSE522 Print: 4
+	[  417.151809] CSE522 Print: 5
+	[  417.152227] CSE522 Print: 6
+	[  417.152818] CSE522 Print: 7
+	[  417.153942] CSE522 Print: 8
+	[  417.154162] CSE522 Print: 9
+	pi@raspberrypi:~/Documents/CSE522/studio2 $ 
+

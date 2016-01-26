@@ -1,0 +1,11 @@
+--- /home/cameron/Documents/linux-4.1.13/arch/arm/include/asm/unistd.h	2015-11-13 13:46:22.000000000 -0600
++++ arch/arm/include/asm/unistd.h	2016-01-24 19:08:07.940177339 -0600
+@@ -19,7 +19,7 @@
+  * This may need to be greater than __NR_last_syscall+1 in order to
+  * account for the padding in the syscall table
+  */
+-#define __NR_syscalls  (388)
++#define __NR_syscalls  (392)
+ 
+ /*
+  * *NOTE*: This is a ghost syscall private to the kernel.  Only the
