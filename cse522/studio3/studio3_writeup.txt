@@ -9,7 +9,40 @@ sing: Prints out n repititions of a quote from the Lord of the Rings, where n is
 sort: Generates and sorts some sort of list
 
 3.
-INSERT FROM CAMERON'S COPY
+	pi@raspberrypi:~/Downloads/test_programs $ time ./dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m8.232s
+	user	0m8.150s
+	sys	0m0.080s
+	pi@raspberrypi:~/Downloads/test_programs $ time ./dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m8.067s
+	user	0m8.050s
+	sys	0m0.000s
+
+	pi@raspberrypi:~/Downloads/test_programs $ time ./parallel_dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m3.227s
+	user	0m10.020s
+	sys	0m0.080s
+	pi@raspberrypi:~/Downloads/test_programs $ time ./parallel_dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m2.690s
+	user	0m9.860s
+	sys	0m0.030s
+
 
 4.
 real: Total amount of time taken
@@ -17,17 +50,40 @@ user: Time spent in user-space
 sys:  Time spent in kernel-space
 
 5.
-INSERT FROM CAMERON'S COPY
+	pi@raspberrypi:~/Downloads/test_programs $ time ./dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m8.232s
+	user	0m8.150s
+	sys	0m0.080s
+
+	pi@raspberrypi:~/Downloads/test_programs $ time ./parallel_dense_mm 400
+	Generating matrices...
+	Multiplying matrices...
+	Multiplication done!
+
+	real	0m2.690s
+	user	0m9.860s
+	sys	0m0.030s
 
 6.
-INSERT FROM CAMERON'S COPY
+	real	0m0.015s
+	user	0m0.010s
+	sys	0m0.000s
+	The printf statements will be spending most of their time running in user space. The function may need to make a call to kernel space to perform operations against stdout but that amount of time seems to be negligible.
 
 7.
 CLOCK_MONOTONIC would be good for benchmarking--the time values returned are high-resolution and are not subject to changes to the system clock (which might affect the accuracy of the readings)
 CLOCK_REALTIME_COARSE would be bad both because of the low fidelity of the timing readings and because of the effect that changing the system clock would have on the output.
 
 8.
-INSERT
+pi@raspberrypi:~/Documents/rpi-linux-4.1.13/cse522/studio3 $ ./getres 
+CLOCK_REALTIME: seconds=0, nano_sec=1
+CLOCK_REALTIME_COARSE: seconds=0, nano_sec=10000000
+CLOCK_MONOTONIC: seconds=0, nano_sec=1
+CLOCK_MONOTONIC_COARSE: seconds=0, nano_sec=10000000
 
 9.
 The coarse timers run at a frequency of 100Hz (every 10,000,000 nanoseconds), whereas the high resolution timers can operate with nanosecond accuracy.
@@ -39,3 +95,11 @@ CLOCK_MONOTONIC is likely using the high-resolution timing subsystem, while CLOC
 A call to gettime() appears to take roughly 2,000 nanoseconds (timed with CLOCK_MONOTONIC).
 
 13.
+pi@raspberrypi:~/Documents/rpi-linux-4.1.13/cse522/studio3 $ ./parallel_dense_mm 100 100
+Min time: 93238481
+Max time: 103903897
+Average time: 94357734
+
+All reported values are in nanoseconds.
+
+The average time reported is fairly close to the minimum reported time, implying that the loop usually runs at a fairly consistent pace, but occasionally runs slower (perhaps due to preemption while the loop is running, although possibly due to random variation or limits in timer resolution).

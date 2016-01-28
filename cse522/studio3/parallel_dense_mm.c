@@ -31,7 +31,7 @@ typedef unsigned long long U64;
 
 U64 convert( struct timespec timeSpec )
 {
-	return (timeSpec.tv_sec * 1000000000) + timeSpec.tv_nsec;
+	return (((U64)timeSpec.tv_sec) * 1000000000) + ((U64) timeSpec.tv_nsec);
 }
 
 int main( int argc, char* argv[] ){
@@ -41,8 +41,10 @@ int main( int argc, char* argv[] ){
 	double *A, *B, *C;
 	struct timespec start;
 	struct timespec end;
-	unsigned int numLoops = 0,
-	U64  average = 0, min = 0, max = 0, ;
+	unsigned int numLoops = 0;
+	U64  average = 0;
+	U64 min = 2 << 30;
+	U64 max = 0;
 
 	#ifdef VERIFY_PARALLEL
 	double *D;
@@ -63,8 +65,6 @@ int main( int argc, char* argv[] ){
 
 	squared_size = matrix_size * matrix_size;
 
-	printf("Generating matrices...\n");
-
 	A = (double*) malloc( sizeof(double) * squared_size );
 	B = (double*) malloc( sizeof(double) * squared_size );
 	C = (double*) malloc( sizeof(double) * squared_size );
@@ -81,10 +81,8 @@ int main( int argc, char* argv[] ){
 		#endif
 	}
 
-	for( i = 0; i < numLoops; i++ )
+	for( i = 1; i <= numLoops; i++ )
 	{
-
-		printf("Multiplying matrices...\n");
 		clock_gettime( CLOCK_MONOTONIC_RAW, &start );
 		#pragma omp parallel for private(col, row, index)
 		for( col = 0; col < matrix_size; col++ ){
@@ -96,11 +94,18 @@ int main( int argc, char* argv[] ){
 		}
 		clock_gettime( CLOCK_MONOTONIC_RAW, &end );
 
-		convert( start );
- 		convert( end );
+		U64 start_nano = convert( start );
+ 		U64 end_nano = convert( end );
+		U64 diff_nano = end_nano - start_nano;
 
+		if (diff_nano < min)
+			min = diff_nano;
+		if (diff_nano > max)
+			max = diff_nano;
+		average = ((i - 1.0) / i)*average + (1.0 / i)*diff_nano;
 	}
 
+	printf("Min time: %llu\nMax time: %llu\nAverage time: %llu\n", min, max, average);
 	
 	#ifdef VERIFY_PARALLEL
 	printf("Verifying parallel matrix multiplication...\n");
@@ -115,8 +120,6 @@ int main( int argc, char* argv[] ){
 	for( index = 0; index < squared_size; index++ ) 
 		assert( C[index] == D[index] );
 	#endif //ifdef VERIFY_PARALLEL
-
-	printf("Multiplication done!\n");
 
 	return 0;
 }
