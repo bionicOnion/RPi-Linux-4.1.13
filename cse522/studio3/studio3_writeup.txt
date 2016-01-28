@@ -1,0 +1,41 @@
+1.
+Robert Miller
+Cameron Whipple
+
+2.
+dense_mm: Generates matrices of a user-specified size and multiplies them
+parallel_dense_mm: Same as dense_mm (but presumably with multiple threads)
+sing: Prints out n repititions of a quote from the Lord of the Rings, where n is user-specified
+sort: Generates and sorts some sort of list
+
+3.
+INSERT FROM CAMERON'S COPY
+
+4.
+real: Total amount of time taken
+user: Time spent in user-space
+sys:  Time spent in kernel-space
+
+5.
+INSERT FROM CAMERON'S COPY
+
+6.
+INSERT FROM CAMERON'S COPY
+
+7.
+CLOCK_MONOTONIC would be good for benchmarking--the time values returned are high-resolution and are not subject to changes to the system clock (which might affect the accuracy of the readings)
+CLOCK_REALTIME_COARSE would be bad both because of the low fidelity of the timing readings and because of the effect that changing the system clock would have on the output.
+
+8.
+INSERT
+
+9.
+The coarse timers run at a frequency of 100Hz (every 10,000,000 nanoseconds), whereas the high resolution timers can operate with nanosecond accuracy.
+
+10.
+CLOCK_MONOTONIC is likely using the high-resolution timing subsystem, while CLOCK_MONOTONIC_COARSE is update once per update to the jiffies variable (e.g. HZ times per second, which--on the ARM architecture--would be 100 times, consistent with our findings).
+
+11.
+A call to gettime() appears to take roughly 2,000 nanoseconds (timed with CLOCK_MONOTONIC).
+
+13.
