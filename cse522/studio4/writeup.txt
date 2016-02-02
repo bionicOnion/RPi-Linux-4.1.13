@@ -1,0 +1,16 @@
+1. Robert Miller, Cameron Whipple
+3. mmap2 - It's dynamically linking an arm library that handles memory into the address space.
+    open     - Opens the dynamic library file in order to retrieve the file descriptor that is necessary for mmap2 system call.
+
+4. write(1, "Usage: ./sing <number of verses>"..., 33Usage: ./sing <number of verses>) = 33
+
+5. When running the dense_mm application with a matrix of size 100, some of the system calls are being optimized into a single larger buffer. For instance, the dense_mm.c performs 3 mallocs but the strace is only showing a single call to the mmap2 system call. The same sort of technique is being utilized for the printf functions within the code. The printf functions get mapped to a write system call. The dense_mm 300 makes 2 calls to the write but the dense_mm 100 only makes use of 1 write operation.  The kernel will also have a more difficult time allocating a contiguous buffer of ~2.1 MB. It is much easier to allocate 3 smaller buffers that do not need to be contiguous. Condensing these calls leads to less kernel overhead associated with context switches.
+
+System Calls: mmap2 and write
+
+6. All the malloc calls were combined into a single mmap2 call for 4096 bytes.
+
+7. All the calls are separate as the memory was too large.
+
+8. It appears as if the malloc call is allocating more memory from the kernel than was initially requested by the application. That larger buffer is then used to service subsequent calls to malloc without needing to involve the kernel. This could be a method for reducing the computation overhead caused by system calls and context switches.
+
