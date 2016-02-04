@@ -14,3 +14,10 @@ System Calls: mmap2 and write
 
 8. It appears as if the malloc call is allocating more memory from the kernel than was initially requested by the application. That larger buffer is then used to service subsequent calls to malloc without needing to involve the kernel. This could be a method for reducing the computation overhead caused by system calls and context switches.
 
+13. The processes which preempted execution seem to have largely been interrupts (both system related, such as timing and networking interrupts or scheduling, and system call related, such as whenever dense_mm requests or releases memory).
+
+14. Most of the time, the other CPUs are in the idle loop (with occasional activity from other running processes, such as the terminal and text editor).
+
+15. Presumably, the scheduler is allotting some amount of time in which a process is allowed to run on a CPU before being rescheduled. Because this time window is equal for all processes, the timers will expire for all CPUs simultaneously and rescheduling will occur simultaneously for all processors (with the potential added bonus that only a single invocation of the scheduler is necessary to handle all of the cores at once).
+
+16. During the parallelized segment of execution, some of the cores are being hit by frequent interrupts and context switches (to the point that relatively little forward progress is being made by ANY process scheduled on that core) while another core is allowed to work on our process without being rescheduled for an extended period of time. Although we don't have all of the information necessary to truly understand the scheduler's logic for behaving in this way, this strikes us as a bizarre usage of system resources which could be more evenly distributed across the cores such that no single core is subject to thrashing as contexts are switched in and out.

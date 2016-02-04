@@ -24,7 +24,7 @@ const unsigned sqrt_of_UINT32_MAX = 65536;
 // gives identical results to the serial computation. If the verficiation is
 // successful then the program executes normally. If the verification fails
 // the program will terminate with an assertion error.
-//#define VERIFY_PARALLEL
+// #define VERIFY_PARALLEL
 
 int main( int argc, char* argv[] ){
 

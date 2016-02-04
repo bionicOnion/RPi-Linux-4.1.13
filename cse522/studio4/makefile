@@ -1,9 +1,9 @@
 all:
-	gcc -o dense_mm dense_mm.c
-	gcc -o do_malloc do_malloc.c
-	gcc -o do_nothing do_nothing.c
-	gcc -o parallel_dense_mm parallel_dense_mm.c
-	gcc -o sing sing.c
+	gcc -Wall -o dense_mm dense_mm.c
+	gcc -Wall -o do_malloc do_malloc.c
+	gcc -Wall -o do_nothing do_nothing.c
+	gcc -Wall -o parallel_dense_mm parallel_dense_mm.c -fopenmp
+	gcc -Wall -o sing sing.c
 
 clean:
 	rm -f *.o
