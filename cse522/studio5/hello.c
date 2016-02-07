@@ -5,13 +5,14 @@
 
 static int hello_init(void)
 {
-  printk(KERN_ALERT "I bear a charmed life.\n");
+	printk(KERN_ALERT "I bear a charmed life.\n");
+	return 0;
 }
 
 
 static void hello_exit(void)
 {
-  printk(KERN_ALERT "Out, out brief candle!\n");
+	printk(KERN_ALERT "Out, out brief candle!\n");
 }
 
 
