@@ -2,6 +2,7 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/kthread.h>
+#include <linux/delay.h>
 
 /* -- holds reference to kernel thread that was created -- */
 struct task_struct* pThread = 0;
@@ -9,14 +10,17 @@ struct task_struct* pThread = 0;
 /* -- entry point for the spawned thread -- */
 static int threadEntryPoint( void *data )
 {
+   unsigned int index = 0;
 
 	printk( KERN_DEBUG "Spawned thread started\n" );
 
-//	while(1)
-//	{
+   /* -- detect if thread should stop -- */
+	while(!kthread_should_stop())
+	{
 		printk( KERN_DEBUG "threadEntryPoint\n" );
+      msleep(1000);
 		schedule();
-//	}
+	}
 
 	return 0;
 }
