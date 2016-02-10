@@ -10,17 +10,20 @@ struct task_struct* pThread = 0;
 /* -- entry point for the spawned thread -- */
 static int threadEntryPoint( void *data )
 {
-   unsigned int index = 0;
+	unsigned int count = 0;
 
 	printk( KERN_DEBUG "Spawned thread started\n" );
 
    /* -- detect if thread should stop -- */
 	while(!kthread_should_stop())
 	{
-		printk( KERN_DEBUG "threadEntryPoint\n" );
-      msleep(1000);
+		msleep(1000);
 		schedule();
+		count++;
+		printk( KERN_DEBUG "monitor_framework_thread; count=0x%08x\n", count );
 	}
+
+	printk( KERN_DEBUG "monitor_framework_thread; CLOSING\n" );
 
 	return 0;
 }
@@ -44,7 +47,18 @@ static int spawn_init(void)
 
 static void spawn_exit(void)
 {
+	int retVal = 0;
+
 	printk(KERN_DEBUG "spawn_exit\n" );
+
+	if( pThread != 0 )
+	{
+		retVal = kthread_stop(pThread);
+		if( retVal != 0 )
+		{
+			printk( KERN_ALERT "kthread_stop failed; ret=0x%08x\n", retVal );
+		}
+	}
 }
 
 
