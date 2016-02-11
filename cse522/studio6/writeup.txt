@@ -1,0 +1,19 @@
+1.
+Robert Miller
+Cameron Whipple
+
+2.
+Hello from parent
+Child PID: 835
+Hello from child
+
+4.
+[  881.705130] Bar updated---old value: 0, new value 42
+[  890.650594] Baz updated---old value: 0, new value 40
+[  896.891206] Foo updated---old value: 0, new value: 44
+
+5.
+
+
+6.
+
