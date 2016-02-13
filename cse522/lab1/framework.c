@@ -13,6 +13,17 @@ ktime_t time;
 /* -- holds the timer used to reactivate the background thread -- */
 struct hrtimer hrTimer;
 
+/* -- stores the frequency with which the monitoring thread will wakeup; default to 1 second -- */
+static long log_sec = 1;
+static unsigned long log_nsec = 0;
+
+/* @todo - Determine proper permissions for the variables */
+module_param(log_sec, long, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(log_sec, "Number of seconds as a long");
+
+module_param(log_nsec, unsigned long, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(log_nsec, "Number of nanoseconds as an unsigned long");
+
 /* static int resetStateEntryPoint( void *data ) */
 enum hrtimer_restart resetStateEntryPoint(struct hrtimer * pTimer)
 {
@@ -26,14 +37,14 @@ enum hrtimer_restart resetStateEntryPoint(struct hrtimer * pTimer)
 /* -- entry point for the spawned thread -- */
 static int threadEntryPoint( void *data )
 {
-	unsigned int count = 0;
+
 	int retVal = 0;
 
 
-	printk( KERN_DEBUG "Spawned thread started\n" );
+	printk( KERN_DEBUG "monitor_framework_thread; seconds=%ld, nanoseconds=%lu\n", log_sec, log_nsec );
 
 	/* -- configuring timeouts -- */
-	time = ktime_set( 1, 0 );
+	time = ktime_set( log_sec, log_nsec );
 
 	/* -- bind timer to use clock monotonic -- */
 	hrtimer_init( &hrTimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL );
@@ -54,8 +65,6 @@ static int threadEntryPoint( void *data )
 		/* -- activate scheduler -- */
 		schedule();
 
-		count++;
-//		printk( KERN_DEBUG "monitor_framework_thread; count=0x%08x\n", count );
       printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%d, nivcsw=%d\n", current->nvcsw, current->nivcsw );
 	}
 

@@ -3,6 +3,7 @@
 3. 
 We developed a loop that constantly repeats and calls the schedule() function to provide other threads access to cpu. What we noticed was that the cpu usage would skyrocket to near 100% utilization. We were forced to power off the device as we were not able to disable the thread. To retrieve output, a sleep of a second was introduced into the kernel thread to allow other threads access to the cpu. Below is the output from the dmesg command showing the creation and deletion of that thread.
 
+6. 
 pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/lab1 $ dmesg
 [  841.563542] spawn_init
 [  841.567334] Spawned thread started
@@ -24,5 +25,10 @@ pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/lab1 $ dmesg
 [  856.719439] monitor_framework_thread; count=0x0000000f
 [  856.724590] monitor_framework_thread; CLOSING
 
+The times seem to be varying around the 1000 microsecond point. The timer was configured to go off every second but is going off around 1.01 seconds instead.
 
+7. 
+@todo - add output from running the spawn.ko module with counts for context switches
+
+8.
 
