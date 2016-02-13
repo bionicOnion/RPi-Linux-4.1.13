@@ -1,5 +1,6 @@
 #include <linux/init.h>
 #include <linux/module.h>
+/* #include <linux/moduleparam.h> */
 #include <linux/kernel.h>
 #include <linux/kthread.h>
 #include <linux/delay.h>
@@ -18,10 +19,10 @@ static long log_sec = 1;
 static unsigned long log_nsec = 0;
 
 /* @todo - Determine proper permissions for the variables */
-module_param(log_sec, long, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+module_param(log_sec, ulong, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(log_sec, "Number of seconds as a long");
 
-module_param(log_nsec, unsigned long, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+module_param(log_nsec, ulong, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(log_nsec, "Number of nanoseconds as an unsigned long");
 
 /* static int resetStateEntryPoint( void *data ) */
@@ -39,7 +40,6 @@ static int threadEntryPoint( void *data )
 {
 
 	int retVal = 0;
-
 
 	printk( KERN_DEBUG "monitor_framework_thread; seconds=%ld, nanoseconds=%lu\n", log_sec, log_nsec );
 
@@ -65,7 +65,7 @@ static int threadEntryPoint( void *data )
 		/* -- activate scheduler -- */
 		schedule();
 
-      printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%d, nivcsw=%d\n", current->nvcsw, current->nivcsw );
+      printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%lu, nivcsw=%lu\n", current->nvcsw, current->nivcsw );
 	}
 
 	/* -- attempt to cancel the timer -- */

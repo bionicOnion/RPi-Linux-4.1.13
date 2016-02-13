@@ -56,7 +56,7 @@ static int threadEntryPoint( void *data )
 
 		count++;
 //		printk( KERN_DEBUG "monitor_framework_thread; count=0x%08x\n", count );
-      printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%d, nivcsw=%d\n", current->nvcsw, current->nivcsw );
+      printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%lu, nivcsw=%lu\n", current->nvcsw, current->nivcsw );
 	}
 
 	/* -- attempt to cancel the timer -- */
