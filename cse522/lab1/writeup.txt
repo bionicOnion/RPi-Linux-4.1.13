@@ -44,9 +44,16 @@ The times seem to be varying around the 1000 microsecond point. The timer was co
 pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/lab1 $ 
 
 8.
-From the logs generated as part of step 7, it is clear that there are significantly more voluntary context switches than involuntary. The nvcsw increments each time the kernel thread is getting a chance to execute. It seems that the voluntary count increases each time that the thread makes use of the schedule() function. In this case, the thread is voluntarily giving up the resources for another process to run. The involuntary context switching is most likely a result of our kernel thread being interrupted while in the middle of execution.
+From the logs generated as part of step 7, it is clear that there are significantly more voluntary context switches than involuntary. The nvcsw increments each time the kernel thread is getting a chance to execute. It seems that the voluntary count increases each time that the thread makes use of the schedule() function. In this case, the thread is voluntarily giving up the resources for another process to run. The involuntary context switching is most likely a result of our kernel thread being interrupted while in the middle of executing its routine.
 
 12.
+ksoftirqd/0-3     [000] 15180.782533: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15180.782560: sched_switch:         framework/0:11042 [120] R ==> ksoftirqd/0:3 [98]
+trace-cmd-11062 [000] 15180.782897: sched_switch:         trace-cmd:11062 [120] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15180.782957: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+
+The framework threads are not able to run till completion 100% percent of the time. Each of the framework threads should only run once in a second if they are able to run till completion. The exerpt above is from the trace file capture in a previous step. This exerpt is showing that the thread is running twice within a given second. This shows that the thread is being preempted in the middle of its routine and then provided access to the cpu to complete. Within the kernel, a thread can be preempted by software and hardware interrupt handlers. In the example above, the thread is being preempted by the softirq functionality within the kernel.
+
 
 13.
 Delta 1 = 0.000376 seconds
@@ -85,6 +92,13 @@ Min  = 0.000027 seconds
 16.
 /* @todo - develop procedure as outlined */
 trace-cmd report | grep framework/0 | cut -f1 -d ':' | cut -f2 -d ']' > times.txt
+
+/* -- jitter filter -- */
+trace-cmd report | grep "==> framework"
+
+/* -- per period execution time -- */
+trace-cmd report | grep "framework/0"
+
 
 
 
