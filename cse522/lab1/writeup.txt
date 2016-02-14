@@ -46,3 +46,45 @@ pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/lab1 $
 8.
 From the logs generated as part of step 7, it is clear that there are significantly more voluntary context switches than involuntary. The nvcsw increments each time the kernel thread is getting a chance to execute. It seems that the voluntary count increases each time that the thread makes use of the schedule() function. In this case, the thread is voluntarily giving up the resources for another process to run. The involuntary context switching is most likely a result of our kernel thread being interrupted while in the middle of execution.
 
+12.
+
+13.
+Delta 1 = 0.000376 seconds
+Delta 2 = 0.000112 seconds
+Delta 3 = 0.000127 seconds
+
+14.
+Delta 1 = 0.000058 seconds
+Delta 2 = 0.000084 seconds
+Delta 3 = 0.000323 seconds
+
+15.
+ksoftirqd/0-3     [000] 15165.780829: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15165.780871: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+	runtime=0.000042 seconds
+
+ksoftirqd/0-3     [000] 15166.780889: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15166.780953: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+	runtime=0.000064 seconds
+
+ksoftirqd/0-3     [000] 15167.780980: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15167.781018: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+	runtime=0.00038 seconds
+
+ksoftirqd/0-3     [000] 15168.781036: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15168.781102: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+	runtime=0.000066 seconds
+
+ksoftirqd/0-3     [000] 15169.781126: sched_switch:         ksoftirqd/0:3 [98] S ==> framework/0:11042 [120]
+framework/0-11042 [000] 15169.781168: sched_switch:         framework/0:11042 [120] S ==> swapper/0:0 [120]
+	runtime=0.000042 seconds
+
+Max = 0.000113 seconds
+Min  = 0.000027 seconds
+
+16.
+/* @todo - develop procedure as outlined */
+trace-cmd report | grep framework/0 | cut -f1 -d ':' | cut -f2 -d ']' > times.txt
+
+
+

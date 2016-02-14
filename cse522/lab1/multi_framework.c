@@ -32,10 +32,13 @@ MODULE_PARM_DESC(log_nsec, "Number of nanoseconds as an unsigned long");
 enum hrtimer_restart resetStateEntryPoint(struct hrtimer * pTimer)
 {
 
+#if 1
 	ThreadContext_t *pContext = container_of( pTimer, ThreadContext_t, hrTimer);
-	
-	/* -- mark the thread as scheduler -- */
 	wake_up_process( pContext->pThread );
+#else
+	int index = smp_processor_id();
+	wake_up_process( threads[index].pThread );
+#endif
 
 	return HRTIMER_NORESTART;
 }
@@ -71,7 +74,7 @@ static int threadEntryPoint( void *data )
 		/* -- activate scheduler -- */
 		schedule();
 
-		printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%lu, nivcsw=%lu, cpu=0x%08x\n", current->nvcsw, current->nivcsw, index );
+		printk( KERN_DEBUG "monitor_framework_thread; nvcsw=%lu, nivcsw=%lu, cpu=0x%08x\n", current->nvcsw, current->nivcsw, smp_processor_id() );
 	}
 
 	/* -- attempt to cancel the timer -- */
