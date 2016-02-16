@@ -3,3 +3,83 @@ Robert Miller
 Cameron Whipple
 
 2.
+We would expect to see messages being printed to the kernels logging system as the module is loaded and unloaded. Specifically, I would expect to an entry saying "I bear a charmed life." when the module is loaded and "Out, out brief candle!" when the module is unloaded.
+
+4. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ lsmod
+Module                  Size  Used by
+hello                    745  0 
+ctr                     3569  2 
+ccm                     7694  2 
+joydev                  9044  0 
+evdev                  10446  6 
+hid_microsoft           3110  0 
+bcm2835_gpiomem         2852  0 
+arc4                    1710  2 
+rt2800usb              17366  0 
+rt2800lib              71615  1 rt2800usb
+rt2x00usb               8448  1 rt2800usb
+rt2x00lib              37119  3 rt2x00usb,rt2800lib,rt2800usb
+snd_bcm2835            19970  3 
+mac80211              534982  3 rt2x00lib,rt2x00usb,rt2800lib
+snd_pcm                73566  1 snd_bcm2835
+cfg80211              414124  2 mac80211,rt2x00lib
+snd_timer              18009  1 snd_pcm
+snd                    51052  9 snd_bcm2835,snd_timer,snd_pcm
+crc_ccitt               1134  1 rt2800lib
+uio_pdrv_genirq         3008  0 
+rfkill                 15789  2 cfg80211
+uio                     7781  1 uio_pdrv_genirq
+i2c_dev                 5727  0 
+fuse                   81402  3 
+ipv6                  369081  34 
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ sudo dmesg --clear
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ sudo insmod hello.ko
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ dmesg
+[ 1430.549020] I bear a charmed life.
+
+5. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ sudo rmmod hello
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ lsmod
+Module                  Size  Used by
+ctr                     3569  2 
+ccm                     7694  2 
+joydev                  9044  0 
+evdev                  10446  6 
+hid_microsoft           3110  0 
+bcm2835_gpiomem         2852  0 
+arc4                    1710  2 
+rt2800usb              17366  0 
+rt2800lib              71615  1 rt2800usb
+rt2x00usb               8448  1 rt2800usb
+rt2x00lib              37119  3 rt2x00usb,rt2800lib,rt2800usb
+snd_bcm2835            19970  3 
+mac80211              534982  3 rt2x00lib,rt2x00usb,rt2800lib
+snd_pcm                73566  1 snd_bcm2835
+cfg80211              414124  2 mac80211,rt2x00lib
+snd_timer              18009  1 snd_pcm
+snd                    51052  9 snd_bcm2835,snd_timer,snd_pcm
+crc_ccitt               1134  1 rt2800lib
+uio_pdrv_genirq         3008  0 
+rfkill                 15789  2 cfg80211
+uio                     7781  1 uio_pdrv_genirq
+i2c_dev                 5727  0 
+fuse                   81402  3 
+ipv6                  369081  34 
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ dmesg
+[ 1430.549020] I bear a charmed life.
+[ 1454.576190] Transfer to device 9 endpoint 0x1 frame 1813 failed - FIQ reported NYET. Data may have been lost.
+[ 1482.155889] Transfer to device 10 endpoint 0x2 frame 717 failed - FIQ reported NYET. Data may have been lost.
+[ 1483.283977] Transfer to device 10 endpoint 0x2 frame 1845 failed - FIQ reported NYET. Data may have been lost.
+[ 1488.506429] Out, out brief candle!
+
+6. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio5 $ dmesg
+[ 1920.843725] I bear a charmed life. jiffies=162082
+[ 1934.424132] Out, out brief candle! jiffies=163440
+
+7.
+Modifying the init function to return a negative value will result in a failure to install the module. This makes sense as a module return an error code can not be interpreted by the OS as being successfully installed. A warning message is displayed when a positive number is returned. The module will still successfully install with positive numbers.
+
