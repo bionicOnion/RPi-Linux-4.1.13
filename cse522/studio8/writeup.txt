@@ -1,0 +1,23 @@
+1.
+Robert Miller
+Cameron Whipple
+
+4.
+[  200.412807] race: 1807221
+[  202.920498] race: 2034027
+[  204.916431] race: 2436408
+
+
+6.
+[  255.114928] race: 4000000
+[  260.176273] race: 4000000
+[  263.547133] race: 4000000
+
+7.
+Threads take roughly .12 seconds to execute
+
+9.
+Threads took on the order of a full minute to execute
+
+10.
+Mutexes are less useful in contexts such as this one (in which millions of short accesses are required in a short timespan), but when fewer, longer accesses or accesses to multiple pieces of data are required--the sorts of things that can't be handled by a single atomic access--mutexes are a powerful tool.
