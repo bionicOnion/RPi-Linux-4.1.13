@@ -1,0 +1,15 @@
+1.
+Robert Miller
+Cameron Whipple
+
+6.
+(The number printed is the number of seconds elapsed according to the
+  monotonic clock)
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio11 $ ./work 
+CPU 2 finished: 1894
+CPU 3 finished: 1899
+CPU 0 finished: 1904
+CPU 1 finished: 1909
+
+
