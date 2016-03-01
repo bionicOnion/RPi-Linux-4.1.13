@@ -1,16 +1,15 @@
 #include <linux/kobject.h>
 #include <linux/string.h>
+#include <linux/sched.h>
 #include <linux/sysfs.h>
 #include <linux/module.h>
 #include <linux/init.h>
+#include <linux/pid.h>
 
 
-static pid_t pid;
+static pid_t userPID;
 
 
-/*
- * The "foo" file where a static variable is read from and written to.
- */
 static ssize_t show(struct kobject *kobj, struct kobj_attribute *attr,
 			char *buf)
 {
@@ -20,34 +19,44 @@ static ssize_t show(struct kobject *kobj, struct kobj_attribute *attr,
 static ssize_t store(struct kobject *kobj, struct kobj_attribute *attr,
 			 const char *buf, size_t count)
 {
-	int ret = kstrtoint(buf, 10, &pid);
+	struct pid* real_pid;
+	struct task_struct* pidTask;
+
+	int ret = kstrtoint(buf, 10, &userPID);
 	if (ret < 0)
 		return ret;
 
-	pid* real_pid = find_vpid(pid);
+	// Convert from virtual to real PID
+	real_pid = find_vpid(userPID);
 	if (real_pid == NULL)
 	{
 		printk(KERN_WARNING "VPID translation failed\n");
 		return count;
 	}
 
-	task_struct* pid_task = pid_task(real_pid, PIDTYPE_PID);
+	// Get the task struct associated with the provided PID
+	pidTask = pid_task(real_pid, PIDTYPE_PID);
 	if (real_pid == NULL)
 	{
 		printk(KERN_WARNING "PID task locating failed\n");
 		return count;
 	}
 
-	// TODO finish step 5 here
-
-	printk(KERN_INFO "PID logged: %d\n", pid);
+	// Print out family tree
+	while (1)
+	{
+		printk(KERN_DEBUG "%s: %d\n", pidTask->comm, pidTask->pid);
+		if (pidTask->pid == 1) // PID of 'init' process
+			break;
+		pidTask = pidTask->real_parent;
+	}
 
 	return count;
 }
 
 /* Sysfs attributes cannot be world-writable. */
 static struct kobj_attribute pid_attribute =
-	__ATTR(pid, 0664, show, store);
+	__ATTR(userPID, 0664, show, store);
 
 /*
  * Create a group of attributes so that we can create and destroy them all
@@ -103,4 +112,4 @@ static void __exit example_exit(void)
 module_init(example_init);
 module_exit(example_exit);
 MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("Greg Kroah-Hartman <greg@kroah.com>");
+MODULE_AUTHOR("Robert Miller and Cameron Whipple");
