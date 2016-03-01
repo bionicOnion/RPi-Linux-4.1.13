@@ -12,8 +12,23 @@ Hello from child
 [  890.650594] Baz updated---old value: 0, new value 40
 [  896.891206] Foo updated---old value: 0, new value: 44
 
-5.
-
-
 6.
+[  343.045509] VPID translation failed
+
+7.
+[  397.068651] top: 1230
+[  397.068682] bash: 1224
+[  397.068697] lxterminal: 821
+[  397.068711] systemd: 1
+
+8.
+[  488.688712] tree: 1317
+[  488.688743] tree: 1295
+[  488.688759] tree: 1277
+[  488.688773] tree: 1268
+[  488.688788] tree: 1264
+[  488.688801] tree: 1263
+[  488.688815] bash: 1224
+[  488.688829] lxterminal: 821
+[  488.688843] systemd: 1
 
