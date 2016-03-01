@@ -3,21 +3,58 @@ Robert Miller
 Cameron Whipple
 
 4.
-[  200.412807] race: 1807221
-[  202.920498] race: 2034027
-[  204.916431] race: 2436408
+Although the system has slowed down slightly, overall performance is roughly the same (which is consistent with the description of the completely fair scheduler; any other tasks will be allowed to preempt the processes which are eating up most of the system resources and do whatever comparitively small tasks that they require).
 
+5.
+Without background tasks:
+
+pi@raspberrypi ~/522/RPi-Linux-4.1.13/cse522/studio7 $ time ./dense_mm 300
+Generating matrices...
+Multiplying matrices...
+Multiplication done!
+
+real	0m3.134s
+user	0m3.050s
+sys	0m0.000s
+
+
+With background tasks:
+
+pi@raspberrypi ~/522/RPi-Linux-4.1.13/cse522/studio7 $ time ./dense_mm 300
+Generating matrices...
+Multiplying matrices...
+Multiplication done!
+
+real	0m6.411s
+user	0m3.070s
+sys	0m0.010s
 
 6.
-[  255.114928] race: 4000000
-[  260.176273] race: 4000000
-[  263.547133] race: 4000000
+Although the process required the same amount of total processing time to complete, the amount of real time taken to complete nearly doubled--again consistent with fair scheduling; when multiple processes require a significant amount of processing time, they'll share it more even with one another.
 
 7.
-Threads take roughly .12 seconds to execute
+real time would increase, but user would remain stable
+
+8.
+pi@raspberrypi ~/522/RPi-Linux-4.1.13/cse522/studio7 $ time ./dense_mm 300
+Generating matrices...
+Multiplying matrices...
+Multiplication done!
+
+real	0m9.394s
+user	0m3.040s
+sys	0m0.020s
+
+
+As expected, user time remained stable while real time increased dramatically.
 
 9.
-Threads took on the order of a full minute to execute
+86.6%
 
 10.
-Mutexes are less useful in contexts such as this one (in which millions of short accesses are required in a short timespan), but when fewer, longer accesses or accesses to multiple pieces of data are required--the sorts of things that can't be handled by a single atomic access--mutexes are a powerful tool.
+-10 --  78.5%
+-5   --  68.4%
+0    --  46.6%
+5    --  23.0%
+10  --    9.1%
+19  -- ~1.4%
