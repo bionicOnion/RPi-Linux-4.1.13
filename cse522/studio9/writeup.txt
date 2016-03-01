@@ -3,4 +3,37 @@ Robert Miller
 Cameron Whipple
 
 2.
+pi@raspberrypi ~/522/RPi-Linux-4.1.13/cse522/studio9 $ time ./infinite 0
+0
 
+real	0m5.453s
+user	0m5.170s
+sys	0m0.040s
+
+3.
+irq/32-dwc_otg_-68
+irq/32-dwc_otg_-67
+ksoftirqd/0-3
+
+5.
+In this case, the process was only preempted rarely by software interrupts (rcuc/0-11 seems to be the most common interrupting process).
+
+6.
+The interruptions occur at more regular intervals in the modified version (likely when the scheduler runs at the end of round robin rounds).
+
+7.
+A total of 182 sched_switch events happened on CPU 0 (the one on which the process was running). In contrast, 25,826 sched_switch events occured on CPU 1
+
+8.
+The real-time priorities in use are 1, 50, and 99 (effecitvely encompassing high-, medium-, and low-priority real-time processes).
+ksoftirqd/0 has an RTPRIO of 1, which is consistent with its role of handling system call requests: it's important that the requests be handled in a timely manner so that the waiting process can continue to make progress, but it's not so critical that it needs to preempt or prevent other important work.
+Conversely, the migration family of processes have a priority of 99: it's critically important that a process maintain a coherent view of memory and that it exist in its entirety on a given CPU before being scheduled (and the opposite), so preemption of the migration process should be avoided at all costs.
+
+9.
+Only 14 sched_switch events occured on CPU 0, all of which were at the beginning and end of execution of the test process (which was never preempted).
+
+10.
+Because a real-time process won't cede the processor to another process until its execution has finished (or it somehow yields its position as a real-time process), it is impossible to interleave two real-time processes on a single core.
+
+12.
+With three real-time processes running, each of them shares the processor even, with roughly .2 ms per process in a round robin ordering. This means that every process is able to (more or less) closely emulate real-time performance without preventing other processes with real-time priority from making progress.
