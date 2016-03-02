@@ -12,4 +12,5 @@ CPU 3 finished: 1899
 CPU 0 finished: 1904
 CPU 1 finished: 1909
 
-
+14.
+No, it would not be possible to create a sleeping lock entirely within userspace. A process sleeps when it is not provided with access to the CPU. As such, this would require that the process be taken off the run queue and thus won't be scheduled. The only way for that task to then be schedulable is for the task_struct to be updated to reflect a runnable state. The task_struct structure is not able to be modified from userspace. If this were possible then the kernel would lose control of the system.
