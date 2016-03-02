@@ -18,7 +18,7 @@
 
 //ITERS = 500,000,000 will take about five seconds on a 900MHz Raspberry Pi 2
 #define ITERS 500000000
-#define UNLOCKED 1
+#define UNLOCKED     1
 #define LOCKED       0
 
 void lock(volatile int* lock_ptr)
@@ -51,15 +51,15 @@ void critical_section( void ){
 }
 
 int main (int argc, char* argv[]){
-	volatile int thing = UNLOCKED;
+	volatile int lock_int = UNLOCKED;
 
 	//Create a team of threads on each processor
 	#pragma omp parallel
 	{
 		//Each thread executes this code block independently
-		lock(&thing);
+		lock(&lock_int);
 		critical_section();
-		unlock(&thing);
+		unlock(&lock_int);
 
 		struct timespec time;
 		clock_gettime(CLOCK_MONOTONIC, &time);		

@@ -67,6 +67,8 @@ sys:  Time spent in kernel-space
 	real	0m2.690s
 	user	0m9.860s
 	sys	0m0.030s
+	
+	The real time element decreases when the parallel dense application is ran as compared to the dense. This makes sense as the parallel application allows the work to be distributed across all the available cores on the system.
 
 6.
 	real	0m0.015s

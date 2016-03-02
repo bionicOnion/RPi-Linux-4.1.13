@@ -58,3 +58,6 @@ As expected, user time remained stable while real time increased dramatically.
 5    --  23.0%
 10  --    9.1%
 19  -- ~1.4%
+
+11.
+There seems to be a negative correlation between the nice value and the runtime proportion. The larger the nice value the less amount of the cpu the process is given.
