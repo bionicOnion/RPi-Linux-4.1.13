@@ -1,0 +1,42 @@
+1. Cameron Whipple
+   Robert Miller
+
+2. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio12 $ ./dense_mm 1000
+Generating matrices...
+Multiplying matrices...
+^C
+
+3. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio12 $ ./dense_mm 400Generating matrices...
+Multiplying matrices...
+^C^C^C^C^C^CMultiplication done!
+global_count=6
+
+4.
+When pressing the Ctrl-C combination it results in the action handler getting called. The action handler interrupts the execution, and overrides, the changes made by the main process. This becomes obvious by looking at the array and looking for values equal to 1. After running the  application we see that numerous entries were overriden during the test run.
+
+i: 4994
+i: 4995
+i: 4996
+i: 4997
+i: 4998
+i: 4999
+834 was possibly interrupted
+2044 was possibly interrupted
+3488 was possibly interrupted
+
+5. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio12 $ ./dense_mm 400
+Generating matrices...
+Multiplying matrices...
+^Cmessage from handler
+^Cmessage from handler
+^Cmessage from handler
+^Cmessage from handler
+^Cmessage from handler
+Multiplication done!
+global_count=5
+
+
+
