@@ -15,3 +15,35 @@ Test message 7
 Test message 8
 Test message 9
 
+4.
+Input side:
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo "hello world" > customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo "testing" > customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo "linux" > customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo "this is an exceptionally long string which is longer than the size of the allocated buffer" >customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo "this is an exceptionally long string which is longer than the size of the allocated buffer (but this time it actually is because I didn't count it last time)" > customFIFO 
+
+
+Output side:
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ ./activeObject hello world
+testing
+linux
+this is an exceptionally long string which is longer than the size of the allocated buffer
+this is an exceptionally long string which is longer than the size of the allocated buffer (but this time it actually is because I didn't count it last time)
+
+5.
+Input side:
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo 1 > customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo 10 > customFIFO 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ echo 32 > customFIFO 
+
+
+Output side:
+
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ ./activeObject 
+1 * 2 = 2
+10 * 2 = 20
+32 * 2 = 64
