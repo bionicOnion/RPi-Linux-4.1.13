@@ -1,0 +1,17 @@
+1.
+Robert Miller
+Cameron Whipple
+
+3.
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studioN $ ./pipes 
+Test message 0
+Test message 1
+Test message 2
+Test message 3
+Test message 4
+Test message 5
+Test message 6
+Test message 7
+Test message 8
+Test message 9
+
