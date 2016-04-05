@@ -1,0 +1,9 @@
+1.
+Robert Miller
+Cameron Whipple
+
+3.
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio14 $ ./srv sockhello
+socket
+world
+
