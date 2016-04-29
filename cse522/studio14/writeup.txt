@@ -7,3 +7,47 @@ pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio14 $ ./srv sockhello
 socket
 world
 
+4. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio14 $ ./srv brandi2
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2115!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2116!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2117!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2120!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2121!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2122!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2123!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2124!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2125!
+5 : quit
+Waiting for connection...
+Client Connected: 4
+17 : hello from 2126!
+5 : quit
+
+

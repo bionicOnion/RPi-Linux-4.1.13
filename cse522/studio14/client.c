@@ -25,6 +25,8 @@ int main(int argc, char** argv)
     printf("Not enough arguments provided.\n");
     return INSUFFICIENT_ARGS;
   }
+
+  char msgBuf[100];
   
   // Create a local socket
   SOCK sock = socket(AF_LOCAL, SOCK_STREAM, 0);
@@ -45,9 +47,10 @@ int main(int argc, char** argv)
   }
   
   // Send some messages over the connection
-  writeToSocket(sock, "hello");
-  writeToSocket(sock, "socket");
-  writeToSocket(sock, "world");
+  sprintf( msgBuf, "hello from %d!", getpid() );
+  writeToSocket(sock, msgBuf );
+  writeToSocket(sock, "quit" );
+
   
   close(sock);
   

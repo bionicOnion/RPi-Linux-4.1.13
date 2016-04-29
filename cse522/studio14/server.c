@@ -18,12 +18,18 @@ inline int readFromSocket(SOCK socket, char* msgBuf)
 
 int main(int argc, char** argv)
 {
+
+  int count = 0;
+  char msgBuf[MAX_MSG_LEN];
+
   // Process command line arguments
   if (argc < MIN_ARG_COUNT)
   {
     printf("Not enough arguments provided.\n");
     return INSUFFICIENT_ARGS;
   }
+
+  memset( msgBuf, 0, MAX_MSG_LEN);
   
   // Create a local socket
   SOCK serverSock = socket(AF_LOCAL, SOCK_STREAM, 0);
@@ -49,28 +55,47 @@ int main(int argc, char** argv)
     printf("Failed to listen on the bound socket: %s\n", strerror(errno));
     return LISTEN_FAIL;
   }
-  
-  // Accept a single connection
-  struct sockaddr_un clientAddr;
-  clientAddr.sun_family = AF_UNIX;
-  SOCK clientSock = accept(serverSock, NULL, NULL);
-  if (clientSock < 0)
+
+  while( 1 )
   {
-    printf("Failed to accept a client connection: %s\n", strerror(errno));
-    return ACCEPT_FAIL;
+  
+
+    printf( "Waiting for connection...\n" );
+
+    // Accept a single connection
+    struct sockaddr_un clientAddr;
+    clientAddr.sun_family = AF_UNIX;
+    SOCK clientSock = accept(serverSock, NULL, NULL);
+    if (clientSock < 0)
+    {
+      printf("Failed to accept a client connection: %s\n", strerror(errno));
+      return ACCEPT_FAIL;
+    }
+
+    printf( "Client Connected: %d\n", clientSock );
+
+    memset( msgBuf, 0, MAX_MSG_LEN);
+    while( strncmp( msgBuf, "quit", MAX_MSG_LEN ) != 0 )
+    {
+      
+      int res = readFromSocket(clientSock, msgBuf);
+      if( res < 0 )
+      {
+        printf( "ERROR: Recieving error %s\n", strerror(errno));
+        break;
+      }
+      else if( res > 0 )
+      {
+        printf("%s\n", msgBuf);
+      }
+      
+    }
+
+    close( clientSock );
+
   }
   
-  // Read from the connection
-  char msgBuf[MAX_MSG_LEN];
-  readFromSocket(clientSock, msgBuf);
-  printf("%s\n", msgBuf);
-  readFromSocket(clientSock, msgBuf);
-  printf("%s\n", msgBuf);
-  readFromSocket(clientSock, msgBuf);
-  printf("%s\n", msgBuf);
-  
   // Close the connections
-  close(clientSock);
   close(serverSock);
   if (unlink(argv[SOCK_FILE_ARG_IDX]) < 0)
   {
