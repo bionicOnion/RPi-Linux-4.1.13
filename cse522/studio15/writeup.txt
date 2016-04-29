@@ -1,0 +1,48 @@
+1.
+Robert Miller
+Cameron Whipple
+
+4.
+pi@raspberrypi:~/522/RPi-Linux-4.1.13/cse522/studio15$ ./master
+localData[0]: 1567719233
+localData[1]: 1834173556
+localData[2]: 413183881
+localData[3]: 181285250
+localData[4]: 86934986
+localData[5]: 69624862
+localData[6]: 1041907133
+localData[7]: 828736454
+localData[8]: 1514861744
+localData[9]: 1961765009
+pi@raspberrypi:~/522/RPi-Linux-4.1.13/cse522/studio15$ ./slave
+localData[0]: 1567719233
+localData[1]: 1834173556
+localData[2]: 413183881
+localData[3]: 181285250
+localData[4]: 86934986
+localData[5]: 69624862
+localData[6]: 1041907133
+localData[7]: 828736454
+localData[8]: 1514861744
+localData[9]: 1961765009
+
+6.
+Timing for 1,000,000 integers:
+pi@raspberrypi:~/522/RPi-Linux-4.1.13/cse522/studio15$ time ./slave
+
+real  0m0.049s
+user 0m0.010s
+sys  0m0.030s
+
+
+Attempting to run the bandwidth benchmarking for larger arrays results
+in a segmentation fault during the call to ftruncate. The largest feasible
+size seems to be around 2,000,000 integers, or 8,000,000 bytes, with the
+following reported timings:
+
+pi@raspberrypi:~/522/RPi-Linux-4.1.13/cse522/studio15$ time ./slave
+
+real  0m0.090s
+user 0m0.020s
+sys  0m0.060s
+
