@@ -51,3 +51,6 @@ Client Connected: 4
 5 : quit
 
 
+5. 
+pi@raspberrypi:~/Documents/RPi-Linux-4.1.13/cse522/studio14 $ ./eth_client Connect Successful
+Welcome to David's house! You are visitor 42. Have a nice day!
